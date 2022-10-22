@@ -32,7 +32,7 @@ function setup() { // p5 function called on page (re-)load
     }
 }
 
-function windowResized() {
+function windowResized() { // p5 function called on window resize
     resizeCanvas(windowWidth, windowHeight);
     screen_scale = createVector(width / 100, height / 100);
 }
