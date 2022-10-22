@@ -17,6 +17,9 @@ const types = [ // list of possible shape types
 ];
 const correctionMean = .25; // mean for gaussian distribution of speeds of a shape, should it pass the softBorder
 const softBorder = 10; // border after which point shapes shall have a tendency to go back into the middle, in % of screen size
+const newPos = { mean: 50, std: 25 }; // parameters for gaussian distribution of new positions of shapes, in % of screen size
+const speedStd = .5; // standard deviation for speeds, in % of screen size
+const speedChange = .05; // average amount of frames that should recalculate a speed
 
 function setup() { // p5 function called on page (re-)load
     createCanvas(windowWidth, windowHeight); // create canvas to draw on
@@ -53,11 +56,11 @@ function getNewSize() {
 }
 
 function getNewSpeed(meanX, meanY) {
-    return createVector(randomGaussian(meanX, .1), randomGaussian(meanY, .1));
+    return createVector(randomGaussian(meanX, speedStd), randomGaussian(meanY, speedStd));
 }
 
 function getNewPos() {
-    return createVector(randomGaussian(50, 25), randomGaussian(50, 25));
+    return createVector(randomGaussian(newPos.mean, newPos.std), randomGaussian(newPos.mean, newPos.std));
 }
 
 function getNewType() {
@@ -93,7 +96,7 @@ class Shape {
 
     update() {
         this.pos.add(this.speed);
-        if (random() > .99) {
+        if (random() < speedChange) {
             let meanX = 0;
             let meanY = 0;
 
