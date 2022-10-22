@@ -19,7 +19,7 @@ const correctionMean = .25; // mean for gaussian distribution of speeds of a sha
 const softBorder = 20; // border after which point shapes shall have a tendency to go back into the middle, in % of screen size
 const newPos = { mean: 50, std: 25 }; // parameters for gaussian distribution of new positions of shapes, in % of screen size
 const speedStd = .5; // standard deviation for speeds, in % of screen size
-const speedChange = .05; // average amount of frames that should recalculate a speed
+const speedChange = .05; // average percentage of frames that should recalculate a shapes speed
 
 function setup() { // p5 function called on page (re-)load
     createCanvas(windowWidth, windowHeight); // create canvas to draw on
