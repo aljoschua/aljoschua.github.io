@@ -1,6 +1,6 @@
 let screen_scale; // vector which spans 1% of screen width & 1% of screen height
 let shapes = []; // array for containing all shapes
-let num_shapes = 50; // number of shapes to render
+let num_shapes = 20; // number of shapes to render
 const colors = [ // color palette containing hex codes
     "#ed2226",
     "#4deeea",
