@@ -13,7 +13,7 @@ const sizes = [ // list of possible shape sizes, in percent of screen size
     10, 15, 20
 ];
 const types = [ // list of possible shape types
-    "square", "circle", "triangle"
+    "square", "circle", "triangle", "flipped_triangle"
 ];
 const correctionMean = .25; // mean for gaussian distribution of speeds of a shape, should it pass the softBorder
 const softBorder = 10; // border after which point shapes shall have a tendency to go back into the middle, in % of screen size
@@ -89,6 +89,8 @@ class Shape {
             case "circle": circle(pos.x, pos.y, size);
                 break;
             case "triangle": triangle(pos.x, pos.y, pos.x + size, pos.y, pos.x + size / 2, pos.y + size);
+                break;
+            case "flipped_triangle": triangle(pos.x, pos.y, pos.x + size, pos.y, pos.x + size / 2, pos.y - size);
                 break;
             default: this.type = "square";
         }
