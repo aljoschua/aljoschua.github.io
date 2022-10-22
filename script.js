@@ -44,17 +44,12 @@ function drawAndUpdateShape(shape) {
     shape.update();
 }
 
-
-function randomArrayElement(array) {
-    return array[int(random()*array.length)];
-}
-
 function getNewColor() {
-    return randomArrayElement(colors);
+    return random(colors);
 }
 
 function getNewSize() {
-    return randomArrayElement(sizes);
+    return random(sizes);
 }
 
 function getNewSpeed(meanX, meanY) {
@@ -66,7 +61,7 @@ function getNewPos() {
 }
 
 function getNewType() {
-    return randomArrayElement(types);
+    return random(types);
 }
 
 class Shape {
