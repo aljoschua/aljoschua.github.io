@@ -16,7 +16,7 @@ const types = [ // list of possible shape types
     "square", "circle", "triangle", "flipped_triangle"
 ];
 const correctionMean = .25; // mean for gaussian distribution of speeds of a shape, should it pass the softBorder
-const softBorder = 10; // border after which point shapes shall have a tendency to go back into the middle, in % of screen size
+const softBorder = 20; // border after which point shapes shall have a tendency to go back into the middle, in % of screen size
 const newPos = { mean: 50, std: 25 }; // parameters for gaussian distribution of new positions of shapes, in % of screen size
 const speedStd = .5; // standard deviation for speeds, in % of screen size
 const speedChange = .05; // average amount of frames that should recalculate a speed
