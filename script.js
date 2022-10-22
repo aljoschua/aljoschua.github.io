@@ -1,4 +1,4 @@
-let speed_scaling_factor; // vector which spans 1% of screen width & 1% of screen height
+let screen_scale; // vector which spans 1% of screen width & 1% of screen height
 let shapes = []; // array for containing all shapes
 let num_shapes = 50; // number of shapes to render
 const colors = [ // color palette containing hex codes
@@ -8,26 +8,30 @@ const colors = [ // color palette containing hex codes
     "#ffe700",
     "#f000ff",
     "#001eff"
-
 ];
-const sizes = [ // list of possible shape sizes
-    40, 50, 60, 70, 80, 90, 100, 110
+const sizes = [ // list of possible shape sizes, in percent of screen size
+    10, 15, 20
 ];
 const types = [ // list of possible shape types
     "square", "circle", "triangle"
 ];
-const correctionMean = .2; // mean for gaussian distribution of speeds of a shape, should it pass the softBorder
-const softBorder = 1 / 8; // border after which point shapes shall have a tendency to go back into the middle, relative to screen size
+const correctionMean = .25; // mean for gaussian distribution of speeds of a shape, should it pass the softBorder
+const softBorder = 10; // border after which point shapes shall have a tendency to go back into the middle, in % of screen size
 
 function setup() { // p5 function called on page (re-)load
     createCanvas(windowWidth, windowHeight); // create canvas to draw on
     frameRate(60); // set framerate to 60 frames per second
 
-    speed_scaling_factor = createVector(width / 100, height / 100); // initialize speed_scaling_factor
+    screen_scale = createVector(width / 100, height / 100); // initialize screen scale
 
     for (i = 0; i < num_shapes; i++) { // create all shape objects
         shapes.push(new Shape());
     }
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    screen_scale = createVector(width / 100, height / 100);
 }
 
 function draw() { // p5 function called on every frame
@@ -58,7 +62,7 @@ function getNewSpeed(meanX, meanY) {
 }
 
 function getNewPos() {
-    return createVector(randomGaussian(width / 2, width / 4), randomGaussian(height / 2, height / 4));
+    return createVector(randomGaussian(50, 25), randomGaussian(50, 25));
 }
 
 function getNewType() {
@@ -76,32 +80,35 @@ class Shape {
 
     draw() {
         fill(this.color);
+        const pos = p5.Vector.mult(screen_scale, this.pos);
+        const size = this.size * screen_scale.x;
+
         switch (this.type) {
-            case "square": square(this.pos.x, this.pos.y, this.size);
+            case "square": square(pos.x, pos.y, size);
                 break;
-            case "circle": circle(this.pos.x, this.pos.y, this.size);
+            case "circle": circle(pos.x, pos.y, size);
                 break;
-            case "triangle": triangle(this.pos.x, this.pos.y, this.pos.x + this.size, this.pos.y, this.pos.x + this.size / 2, this.pos.y + this.size);
+            case "triangle": triangle(pos.x, pos.y, pos.x + size, pos.y, pos.x + size / 2, pos.y + size);
                 break;
             default: this.type = "square";
         }
     }
 
     update() {
-        this.pos.add(p5.Vector.mult(speed_scaling_factor, this.speed));
+        this.pos.add(this.speed);
         if (random() > .99) {
             let meanX = 0;
             let meanY = 0;
 
-            if (this.pos.x < width * softBorder) {
+            if (this.pos.x < softBorder) {
                 meanX = correctionMean;
-            } else if (this.pos.x > width * (1 - softBorder)) {
+            } else if (this.pos.x > (100 - softBorder)) {
                 meanX = -correctionMean;
             }
 
-            if (this.pos.y < height * softBorder) {
+            if (this.pos.y < softBorder) {
                 meanY = correctionMean;
-            } else if (this.pos.y > height * (1 - softBorder)) {
+            } else if (this.pos.y > (100 - softBorder)) {
                 meanY = -correctionMean;
             }
 
