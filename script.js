@@ -24,6 +24,7 @@ const speedChange = .05; // average percentage of frames that should recalculate
 function setup() { // p5 function called on page (re-)load
     createCanvas(windowWidth, windowHeight); // create canvas to draw on
     frameRate(24); // set framerate to 24 frames per second
+    pixelDensity(1);
 
     screen_scale = createVector(width / 100, height / 100); // initialize screen scale
 
